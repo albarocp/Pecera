@@ -12,5 +12,6 @@ public class Main extends AbstractVerticle {
 	public void start(Future<Void> startFuture) {
   
 		vertx.deployVerticle(new Pecera());
+		vertx.deployVerticle(new VertxMqttServer());
     }
 }

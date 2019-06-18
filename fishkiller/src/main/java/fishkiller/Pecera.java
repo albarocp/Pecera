@@ -11,6 +11,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 
+
 public class Pecera extends AbstractVerticle {
 	
 	private AsyncSQLClient bdPecera;
@@ -69,10 +70,13 @@ public class Pecera extends AbstractVerticle {
 				connection.result().query(sql, result -> {
 					if(result.succeeded()) {
 						
-						String jsonResult = result.result().toJson().encodePrettily();
+						//String jsonResult = result.result().toJson().encodePrettily();
+						int pos = result.result().getNumRows();
+						String jsonResult =new JsonArray(result.result().getRows()).getJsonObject(pos-1).encodePrettily();
+						
 						rc.response().end(jsonResult);
 					}else {
-						
+		
 						System.out.println(result.cause().getMessage());
 						rc.response().setStatusCode(400).end();
 						
